@@ -2,6 +2,7 @@ import datetime
 
 from buisness_logics.ComponentLogic import ComponentLogic
 from buisness_logics.MasterLogic import MasterLogic
+from buisness_logics.ServiceLogic import ServiceLogic
 from buisness_logics.ServiceTypeLogic import ServiceTypeLogic
 
 
@@ -80,6 +81,39 @@ def edit_ui(session):
 
                     component_logic.edit(ind, name, number_in_storage, component_cost, component_purveyor)
                     print("База данных успешно обновлена")
+                else:
+                    print("Запись не найдена")
+            case 'service':
+                ind = input('Индекс: ')
+                service_logic = ServiceLogic(session)
+                service = service_logic.get(ind)
+                if service:
+                    component_logic = ComponentLogic(session)
+                    component = component_logic.get(service.component_id)
+                    service_type_logic = ServiceTypeLogic(session)
+                    service_type = service_type_logic.get(service.service_type_id)
+                    if component and service_type:
+                        print(service.service_id, service.service_name, component.component_name,
+                              service_type.service_type_name, service.service_cost)
+
+                        service_name = input('Название услуги: ')
+                        service_cost = int(input('Цена услуги: '))
+                        component_name = input('Название компонента: ')
+                        service_type_name = input('Тип услуги: ')
+
+                        component_logic = ComponentLogic(session)
+                        component = component_logic.find(component_name)
+
+                        service_type_logic = ServiceTypeLogic(session)
+                        service_type = service_type_logic.find(service_type_name)
+
+                        if component is None or service_type is None:
+                            print("Компонент или тип услуги не найдены")
+                        else:
+                            service_logic.edit(ind, service_name, component.component_id, service_type.service_type_id, service_cost)
+                            print("База данных успешно обновлена")
+                    else:
+                        print("Ошибка чтения")
                 else:
                     print("Запись не найдена")
             case 'quit':

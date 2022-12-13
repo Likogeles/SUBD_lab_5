@@ -1,5 +1,6 @@
 from buisness_logics.ComponentLogic import ComponentLogic
 from buisness_logics.MasterLogic import MasterLogic
+from buisness_logics.ServiceLogic import ServiceLogic
 from buisness_logics.ServiceTypeLogic import ServiceTypeLogic
 
 
@@ -29,7 +30,6 @@ def read_ui(session):
                     print(master.master_id, master.master_surname, master.master_name, master.master_patronymic, master.master_date_of_birth)
                 else:
                     print("Запись не найдена")
-                pass
             case 'masters':
                 master_logic = MasterLogic(session)
                 masters = master_logic.get_all()
@@ -38,7 +38,6 @@ def read_ui(session):
                         print(f'{master.master_id}\t{master.master_surname} {master.master_name} {master.master_patronymic} {master.master_date_of_birth}')
                 else:
                     print("Записи отсутсвуют")
-                pass
             case 'get_service_type':
                 ind = input('Индекс: ')
                 service_type_logic = ServiceTypeLogic(session)
@@ -52,7 +51,6 @@ def read_ui(session):
                         print("Ошибка чтения")
                 else:
                     print("Запись не найдена")
-                pass
             case 'service_types':
                 service_type = ServiceTypeLogic(session)
                 service_types = service_type.get_all()
@@ -74,7 +72,6 @@ def read_ui(session):
                     print(component.component_id, component.component_name, component.number_in_storage, component.component_cost, component.component_purveyor)
                 else:
                     print("Запись не найдена")
-                pass
             case 'components':
                 component_logic = ComponentLogic(session)
                 components = component_logic.get_all()
@@ -83,7 +80,30 @@ def read_ui(session):
                         print(f'{component.component_id}\t{component.component_name} {component.number_in_storage} {component.component_cost} {component.component_purveyor}')
                 else:
                     print("Записи отсутсвуют")
-                pass
+            case 'get_service':
+                ind = input('Индекс: ')
+                service_logic = ServiceLogic(session)
+                service = service_logic.get(ind)
+                if service:
+                    component_logic = ComponentLogic(session)
+                    component = component_logic.get(service.component_id)
+                    service_type_logic = ServiceTypeLogic(session)
+                    service_type = service_type_logic.get(service.service_type_id)
+                    print(service.service_id, service.service_name, component.component_name, service_type.service_type_name, service.service_cost)
+                else:
+                    print("Запись не найдена")
+            case 'services':
+                service_logic = ServiceLogic(session)
+                services = service_logic.get_all()
+                if services:
+                    for service in services:
+                        component_logic = ComponentLogic(session)
+                        component = component_logic.get(service.component_id)
+                        service_type_logic = ServiceTypeLogic(session)
+                        service_type = service_type_logic.get(service.service_type_id)
+                        print(f"{service.service_id}\t{service.service_name} - {component.component_name} - {service_type.service_type_name} - {service.service_cost}")
+                else:
+                    print("Записи отсутсвуют")
             case 'quit':
                 pass
             case _:

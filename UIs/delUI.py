@@ -2,6 +2,7 @@ import datetime
 
 from buisness_logics.ComponentLogic import ComponentLogic
 from buisness_logics.MasterLogic import MasterLogic
+from buisness_logics.ServiceLogic import ServiceLogic
 from buisness_logics.ServiceTypeLogic import ServiceTypeLogic
 
 
@@ -26,19 +27,20 @@ def del_ui(session):
                 master_logic = MasterLogic(session)
                 master_logic.remove(ind)
                 print("База данных успешно обновлена")
-
-                pass
             case 'service_type':
                 ind = input('Индекс: ')
                 service_type_logic = ServiceTypeLogic(session)
                 service_type_logic.remove(ind)
                 print("База данных успешно обновлена")
-
-                pass
             case 'component':
                 ind = input('Индекс: ')
                 component_logic = ComponentLogic(session)
                 component_logic.remove(ind)
+                print("База данных успешно обновлена")
+            case 'service':
+                ind = input('Индекс: ')
+                service_logic = ServiceLogic(session)
+                service_logic.remove(ind)
                 print("База данных успешно обновлена")
             case 'quit':
                 pass

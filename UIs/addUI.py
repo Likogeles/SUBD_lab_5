@@ -2,6 +2,7 @@ import datetime
 
 from buisness_logics.ComponentLogic import ComponentLogic
 from buisness_logics.MasterLogic import MasterLogic
+from buisness_logics.ServiceLogic import ServiceLogic
 from buisness_logics.ServiceTypeLogic import ServiceTypeLogic
 
 
@@ -31,7 +32,7 @@ def add_ui(session):
                 master_logic.add(name, surname, patronymic, datetime.datetime(year, month, day))
                 print("База данных успешно обновлена")
             case 'service_type':
-                service_type_name = input('Название сервиса: ')
+                service_type_name = input('Название типа услуги: ')
                 service_director_surname = input('Фамилия директора: ')
                 service_director_name = input('Имя директора: ')
 
@@ -54,6 +55,24 @@ def add_ui(session):
                 component_logic = ComponentLogic(session)
                 component_logic.add(name, number_in_storage, component_cost, component_purveyor)
                 print("База данных успешно обновлена")
+            case 'service':
+                service_name = input('Название услуги: ')
+                service_cost = int(input('Цена услуги: '))
+                component_name = input('Название компонента: ')
+                service_type_name = input('Тип услуги: ')
+
+                component_logic = ComponentLogic(session)
+                component = component_logic.find(component_name)
+
+                service_type_logic = ServiceTypeLogic(session)
+                service_type = service_type_logic.find(service_type_name)
+
+                if component is None or service_type is None:
+                    print("Компонент или тип услуги не найдены")
+                else:
+                    service_logic = ServiceLogic(session)
+                    service_logic.add(service_name, component.component_id, service_type.service_type_id, service_cost)
+                    print("База данных успешно обновлена")
             case 'quit':
                 pass
             case _:

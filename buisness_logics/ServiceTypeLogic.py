@@ -26,6 +26,11 @@ class ServiceTypeLogic:
                     })
         self.session.commit()
 
+    def find(self, name):
+        return self.session.query(ServiceType)\
+            .where(ServiceType.service_type_name == name)\
+            .first()
+
     def remove(self, service_type_id):
         self.session.query(ServiceType).filter(ServiceType.service_type_id == service_type_id).delete()
         self.session.commit()

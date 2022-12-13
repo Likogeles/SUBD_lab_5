@@ -31,11 +31,10 @@ class ComponentLogic:
     def get(self, component_id):
         return self.session.query(Component).where(Component.component_id == component_id).first()
 
-    # def find(self, surname, name):
-    #     return self.session.query(Master)\
-    #         .where(Master.master_surname == surname)\
-    #         .where(Master.master_name == name)\
-    #         .first()
+    def find(self, name):
+        return self.session.query(Component)\
+            .where(Component.component_name == name)\
+            .first()
 
     def get_all(self):
         return self.session.query(Component).order_by(Component.component_id)
