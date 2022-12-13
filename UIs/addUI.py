@@ -1,4 +1,6 @@
 import datetime
+
+from buisness_logics.ComponentLogic import ComponentLogic
 from buisness_logics.MasterLogic import MasterLogic
 from buisness_logics.ServiceTypeLogic import ServiceTypeLogic
 
@@ -43,6 +45,15 @@ def add_ui(session):
                     service_type_logic = ServiceTypeLogic(session)
                     service_type_logic.add(service_type_name, master.master_id, service_director_premium)
                     print("База данных успешно обновлена")
+            case 'component':
+                name = input('Название: ')
+                number_in_storage = int(input('Кол-во на складе: '))
+                component_cost = int(input('Цена: '))
+                component_purveyor = input('Производитель: ')
+
+                component_logic = ComponentLogic(session)
+                component_logic.add(name, number_in_storage, component_cost, component_purveyor)
+                print("База данных успешно обновлена")
             case 'quit':
                 pass
             case _:

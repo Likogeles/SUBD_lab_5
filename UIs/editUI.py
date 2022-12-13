@@ -1,4 +1,6 @@
 import datetime
+
+from buisness_logics.ComponentLogic import ComponentLogic
 from buisness_logics.MasterLogic import MasterLogic
 from buisness_logics.ServiceTypeLogic import ServiceTypeLogic
 
@@ -63,6 +65,21 @@ def edit_ui(session):
                             print("База данных успешно обновлена")
                     else:
                         print("Ошибка чтения")
+                else:
+                    print("Запись не найдена")
+            case 'component':
+                ind = input('Индекс: ')
+                component_logic = ComponentLogic(session)
+                component = component_logic.get(ind)
+                if component:
+                    print(component.component_id, component.component_name, component.number_in_storage, component.component_cost, component.component_purveyor)
+                    name = input('Название: ')
+                    number_in_storage = int(input('Кол-во на складе: '))
+                    component_cost = int(input('Цена: '))
+                    component_purveyor = input('Производитель: ')
+
+                    component_logic.edit(ind, name, number_in_storage, component_cost, component_purveyor)
+                    print("База данных успешно обновлена")
                 else:
                     print("Запись не найдена")
             case 'quit':
