@@ -2,7 +2,10 @@ import sqlalchemy as db
 from sqlalchemy.orm import sessionmaker
 
 from UIs.addUI import add_ui
+from UIs.delUI import del_ui
 from UIs.readUI import read_ui
+from UIs.editUI import edit_ui
+
 from config import host, port, db_name, user, password
 from models.models import Master, ServiceType, Component, Service, Storage, Application
 
@@ -27,6 +30,10 @@ while input_command != 'quit':
             add_ui(session)
         case 'read':
             read_ui(session)
+        case 'edit':
+            edit_ui(session)
+        case 'del':
+            del_ui(session)
         case 'quit':
             pass
         case _:

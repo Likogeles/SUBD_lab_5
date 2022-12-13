@@ -1,4 +1,4 @@
-host = "192.168.1.44"
+host = "192.168.64.156"
 port = 5432
 user = "testuser"
 password = "test"

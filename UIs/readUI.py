@@ -1,4 +1,5 @@
 from buisness_logics.MasterLogic import MasterLogic
+from buisness_logics.ServiceTypeLogic import ServiceTypeLogic
 
 
 def read_ui(session):
@@ -11,7 +12,8 @@ def read_ui(session):
 
                 print('- get_master')
                 print('- masters')
-                print('- service_type')
+                print('- get_service_type')
+                print('- service_types')
                 print('- component')
                 print('- service')
                 print('- storage')
@@ -36,6 +38,34 @@ def read_ui(session):
                 else:
                     print("Записи отсутсвуют")
                 pass
+            case 'get_service_type':
+                ind = input('Индекс: ')
+                service_type_logic = ServiceTypeLogic(session)
+                service_type = service_type_logic.get(ind)
+                if service_type:
+                    master_logic = MasterLogic(session)
+                    master = master_logic.get(service_type.service_director_id)
+                    if master:
+                        print(service_type.service_type_id, service_type.service_type_name, master.master_surname, master.master_name, service_type.service_director_premium)
+                    else:
+                        print("Ошибка чтения")
+                else:
+                    print("Запись не найдена")
+                pass
+            case 'service_types':
+
+                service_type = ServiceTypeLogic(session)
+                service_types = service_type.get_all()
+                if service_types:
+                    for service_type in service_types:
+                        master_logic = MasterLogic(session)
+                        master = master_logic.get(service_type.service_director_id)
+                        if master:
+                            print(f"""{service_type.service_type_id}\t{service_type.service_type_name} - {master.master_surname} {master.master_name} - {service_type.service_director_premium}""")
+                        else:
+                            print("Ошибка чтения")
+                else:
+                    print("Записи отсутсвуют")
             case 'quit':
                 pass
             case _:
