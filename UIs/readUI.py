@@ -2,6 +2,7 @@ from buisness_logics.ComponentLogic import ComponentLogic
 from buisness_logics.MasterLogic import MasterLogic
 from buisness_logics.ServiceLogic import ServiceLogic
 from buisness_logics.ServiceTypeLogic import ServiceTypeLogic
+from buisness_logics.StorageLogic import StorageLogic
 
 
 def read_ui(session):
@@ -102,6 +103,22 @@ def read_ui(session):
                         service_type_logic = ServiceTypeLogic(session)
                         service_type = service_type_logic.get(service.service_type_id)
                         print(f"{service.service_id}\t{service.service_name} - {component.component_name} - {service_type.service_type_name} - {service.service_cost}")
+                else:
+                    print("Записи отсутсвуют")
+            case 'get_storage':
+                ind = input('Индекс: ')
+                storage_logic = StorageLogic(session)
+                storage = storage_logic.get(ind)
+                if storage:
+                    print(storage.storage_id, storage.number_of_plates, storage.number_of_free_plates, storage.storage_address)
+                else:
+                    print("Запись не найдена")
+            case 'storages':
+                storage_logic = StorageLogic(session)
+                storages = storage_logic.get_all()
+                if storages:
+                    for storage in storages:
+                        print(f'{storage.storage_id}\t{storage.number_of_plates} - {storage.number_of_free_plates} - {storage.storage_address}')
                 else:
                     print("Записи отсутсвуют")
             case 'quit':

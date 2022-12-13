@@ -4,6 +4,7 @@ from buisness_logics.ComponentLogic import ComponentLogic
 from buisness_logics.MasterLogic import MasterLogic
 from buisness_logics.ServiceLogic import ServiceLogic
 from buisness_logics.ServiceTypeLogic import ServiceTypeLogic
+from buisness_logics.StorageLogic import StorageLogic
 
 
 def edit_ui(session):
@@ -114,6 +115,21 @@ def edit_ui(session):
                             print("База данных успешно обновлена")
                     else:
                         print("Ошибка чтения")
+                else:
+                    print("Запись не найдена")
+            case 'storage':
+                ind = input('Индекс: ')
+                storage_logic = StorageLogic(session)
+                storage = storage_logic.get(ind)
+                if storage:
+                    print(storage.storage_id, storage.number_of_plates, storage.number_of_free_plates,
+                          storage.storage_address)
+                    number_of_plates = int(input('Общее количество мест: '))
+                    number_of_free_plates = int(input('Количество свободных мест: '))
+                    storage_address = input('Адрес: ')
+
+                    storage_logic.edit(ind, number_of_plates, number_of_free_plates, storage_address)
+                    print("База данных успешно обновлена")
                 else:
                     print("Запись не найдена")
             case 'quit':

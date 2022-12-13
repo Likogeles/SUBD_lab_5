@@ -4,6 +4,7 @@ from buisness_logics.ComponentLogic import ComponentLogic
 from buisness_logics.MasterLogic import MasterLogic
 from buisness_logics.ServiceLogic import ServiceLogic
 from buisness_logics.ServiceTypeLogic import ServiceTypeLogic
+from buisness_logics.StorageLogic import StorageLogic
 
 
 def del_ui(session):
@@ -41,6 +42,11 @@ def del_ui(session):
                 ind = input('Индекс: ')
                 service_logic = ServiceLogic(session)
                 service_logic.remove(ind)
+                print("База данных успешно обновлена")
+            case 'storage':
+                ind = input('Индекс: ')
+                storage_logic = StorageLogic(session)
+                storage_logic.remove(ind)
                 print("База данных успешно обновлена")
             case 'quit':
                 pass

@@ -4,6 +4,7 @@ from buisness_logics.ComponentLogic import ComponentLogic
 from buisness_logics.MasterLogic import MasterLogic
 from buisness_logics.ServiceLogic import ServiceLogic
 from buisness_logics.ServiceTypeLogic import ServiceTypeLogic
+from buisness_logics.StorageLogic import StorageLogic
 
 
 def add_ui(session):
@@ -73,6 +74,13 @@ def add_ui(session):
                     service_logic = ServiceLogic(session)
                     service_logic.add(service_name, component.component_id, service_type.service_type_id, service_cost)
                     print("База данных успешно обновлена")
+            case 'storage':
+                number_of_plates = int(input('Общее количество мест: '))
+                number_of_free_plates = int(input('Количество свободных мест: '))
+                storage_address = input('Адрес: ')
+                storage_logic = StorageLogic(session)
+                storage_logic.add(number_of_plates, number_of_free_plates, storage_address)
+                print("База данных успешно обновлена")
             case 'quit':
                 pass
             case _:
